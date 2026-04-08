@@ -13,6 +13,7 @@ description: Design a Codex-ready execution harness for a project or use case. U
 - 어떤 역할이 필요한지
 - 무엇을 병렬화할지
 - 무엇을 순차 처리할지
+- 단일 세션으로 끝낼지, 필요한 경우 어떤 subagent를 spawn할지
 - 어떤 검증 루프를 둘지
 - 각 역할에 어떤 프롬프트를 줄지
 
@@ -96,7 +97,19 @@ description: Design a Codex-ready execution harness for a project or use case. U
 
 오케스트레이터 흐름 템플릿이 필요하면 `references/orchestrator-template.md`를 읽습니다.
 
-### 5. 검증 루프 설계
+### 5. Subagent spawn 판단
+하네스를 설계할 때는 아래를 반드시 판단합니다.
+
+- single-session으로 끝낼지
+- spawn-optional인지
+- spawn-recommended인지
+- spawn한다면 어떤 역할을 분리할지
+- 어디서 다시 merge할지
+- 최종 validation owner가 누구인지
+
+이 판단 기준이 필요하면 `references/subagent-spawn-guide.md`를 읽습니다.
+
+### 6. 검증 루프 설계
 항상 아래를 포함합니다.
 
 - 요구사항 충족 여부
@@ -107,13 +120,14 @@ description: Design a Codex-ready execution harness for a project or use case. U
 
 기본 검증 루프는 `references/validation-loop.md`를 읽습니다.
 
-### 6. Ready-to-use prompt 생성
+### 7. Ready-to-use prompt 생성
 최종 출력에는 아래가 포함되어야 합니다.
 
 - 오케스트레이터용 프롬프트 1개
 - 각 역할용 프롬프트
 - 실행 순서
 - 검증 체크리스트
+- 필요하면 subagent spawn plan
 
 ## 출력 형식
 
@@ -123,9 +137,10 @@ description: Design a Codex-ready execution harness for a project or use case. U
 2. Chosen pattern and why
 3. Role set
 4. Execution flow
-5. Validation loop
-6. Risks
-7. Ready-to-use prompts
+5. Spawn decision
+6. Validation loop
+7. Risks
+8. Ready-to-use prompts
 
 ## 하지 말아야 할 것
 
