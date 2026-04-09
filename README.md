@@ -48,6 +48,23 @@ $skill-installer --name harness-codex https://github.com/<owner>/harness-codex/t
 
 The skill should design the harness first, then suggest execution flow.
 
+It now also supports designing a **spawn decision** for pseudo-team execution:
+- single-session
+- spawn-optional
+- spawn-recommended
+
+## Recommended architecture
+
+This repository now follows the recommended split:
+- `harness-codex`: designs the harness
+- `team-runner`: later executes a generated team spec via subagents/sessions
+
+The MVP architecture is documented in:
+- `docs/teams-mvp-architecture.md`
+- `team-runner/spec/team-spec-format.md`
+- `team-runner/spec/artifact-convention.md`
+- `team-runner/spec/merge-protocol.md`
+
 ## Included references
 
 - `architecture-patterns.md`
