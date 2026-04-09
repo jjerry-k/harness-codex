@@ -80,8 +80,10 @@ export async function executeTeam(spec, options = {}) {
     results.push(result);
   }
 
+  const hasFailures = results.some((item) => item.status !== 'ok');
+
   return {
-    status: 'mvp-executed',
+    status: hasFailures ? 'mvp-executed-with-fallbacks' : 'mvp-executed',
     baseDir: path.resolve(baseDir),
     spawnDecision: spec.spawnDecision,
     executedRoles: results,

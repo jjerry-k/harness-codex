@@ -122,7 +122,9 @@ role별 작업을 실제 subagent/session 실행으로 연결
 - [ ] single-session 처리 규칙
 - [ ] spawn-optional 처리 규칙
 - [ ] spawn-recommended 처리 규칙
-- [ ] 역할별 실행 결과 상태 모델
+- [x] 역할별 실행 결과 상태 모델
+- [x] experimental Codex CLI report-only adapter
+- [x] timeout/fallback artifact 처리
 
 ### 산출물
 - `spawnRole()` 인터페이스
