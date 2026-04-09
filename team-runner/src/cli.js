@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { loadTeamSpec, validateTeamSpec } from './parser.js';
-import { buildExecutionPlan, executeTeam, runTeam } from './runner.js';
+import { buildExecutionPlan, executeTeam, executeTeamLite, runTeam } from './runner.js';
 
 function printJson(value) {
   console.log(JSON.stringify(value, null, 2));
@@ -10,7 +10,7 @@ export async function runCli(args) {
   const [command, filePath] = args;
 
   if (!command || !filePath) {
-    throw new Error('Usage: team-runner <validate|plan|run|execute> <team-spec.(json|yaml)>');
+    throw new Error('Usage: team-runner <validate|plan|run|execute|execute-lite> <team-spec.(json|yaml)>');
   }
 
   const { spec, absolutePath } = await loadTeamSpec(filePath);
@@ -64,6 +64,16 @@ export async function runCli(args) {
       file: absolutePath,
       baseDir,
       result: await executeTeam(spec, { baseDir })
+    });
+    return;
+  }
+
+  if (command === 'execute-lite') {
+    printJson({
+      command,
+      file: absolutePath,
+      baseDir,
+      result: await executeTeamLite(spec, { baseDir })
     });
     return;
   }

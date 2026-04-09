@@ -20,6 +20,10 @@ function roleExecutionOrder(roles) {
   return [...(roles || [])].sort((a, b) => priority(a.name) - priority(b.name));
 }
 
+function liteRoleFilter(role) {
+  return role.name === 'orchestrator' || role.name === 'reviewer' || role.name === 'qa' || role.name === 'reviewer-qa';
+}
+
 export function buildExecutionPlan(spec) {
   return {
     orchestrator: compileOrchestratorSummary(spec),
@@ -53,13 +57,8 @@ export async function runTeam(spec, options = {}) {
   };
 }
 
-export async function executeTeam(spec, options = {}) {
+async function executePlan(plan, spec, options = {}) {
   const baseDir = options.baseDir || process.cwd();
-  const plan = buildExecutionPlan(spec);
-  await ensureRuntimeDirs(baseDir, spec);
-  await writeArtifactStubs(baseDir, spec);
-  await writeRolePrompts(baseDir, plan);
-
   const artifactMap = new Map();
   for (const item of plan.artifacts || []) {
     artifactMap.set(item.role, item.outputs?.[0]);
@@ -75,7 +74,8 @@ export async function executeTeam(spec, options = {}) {
       cwd: baseDir,
       roleName: role.name,
       rolePrompt: role.prompt,
-      artifactPath
+      artifactPath,
+      timeoutMs: options.timeoutMs
     });
     results.push(result);
   }
@@ -88,7 +88,41 @@ export async function executeTeam(spec, options = {}) {
     spawnDecision: spec.spawnDecision,
     executedRoles: results,
     merge: buildMergePlan(spec),
-    validation: buildValidationPlan(spec),
+    validation: buildValidationPlan(spec)
+  };
+}
+
+export async function executeTeam(spec, options = {}) {
+  const baseDir = options.baseDir || process.cwd();
+  const plan = buildExecutionPlan(spec);
+  await ensureRuntimeDirs(baseDir, spec);
+  await writeArtifactStubs(baseDir, spec);
+  await writeRolePrompts(baseDir, plan);
+
+  const result = await executePlan(plan, spec, options);
+  return {
+    ...result,
     note: 'Roles were executed sequentially through Codex CLI in report-only mode. Automatic parallel spawning is not implemented yet.'
+  };
+}
+
+export async function executeTeamLite(spec, options = {}) {
+  const baseDir = options.baseDir || process.cwd();
+  const fullPlan = buildExecutionPlan(spec);
+  const litePlan = {
+    ...fullPlan,
+    roles: (fullPlan.roles || []).filter(liteRoleFilter),
+    artifacts: (fullPlan.artifacts || []).filter((item) => liteRoleFilter({ name: item.role }))
+  };
+
+  await ensureRuntimeDirs(baseDir, spec);
+  await writeArtifactStubs(baseDir, spec);
+  await writeRolePrompts(baseDir, fullPlan);
+
+  const result = await executePlan(litePlan, spec, options);
+  return {
+    ...result,
+    mode: 'execute-lite',
+    note: 'Only orchestrator/reviewer-style roles were executed to improve reliability. Builder roles were skipped in this lite mode.'
   };
 }

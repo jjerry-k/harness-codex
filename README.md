@@ -78,7 +78,8 @@ Current MVP runtime behavior:
 - creates ready-to-use role prompt files
 - prepares merge and validation planning
 - includes an experimental `execute` path that runs Codex role prompts sequentially in report-only mode
-- if Codex execution hangs or fails, it now writes fallback artifacts instead of blocking the whole run
+- includes `execute-lite`, which runs only orchestrator/reviewer-style roles for better reliability
+- if Codex execution hangs or fails, it writes fallback artifacts instead of blocking the whole run
 - does not yet do true parallel subagent orchestration
 
 ## Included references
