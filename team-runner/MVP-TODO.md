@@ -92,10 +92,12 @@ role 정의를 실제 subagent 실행용 prompt로 변환
 모든 역할이 결과를 정해진 경로에 남기게 만들기
 
 ### 해야 할 일
-- [ ] artifact 루트 경로 생성
-- [ ] role별 기본 artifact 경로 계산
+- [x] artifact 루트 경로 생성
+- [x] role별 기본 artifact 경로 계산
 - [ ] artifact 존재 여부 확인 함수
 - [ ] artifact 읽기/요약 함수
+- [x] artifact stub 파일 자동 생성
+- [x] role prompt 파일 자동 생성
 
 ### 산출물
 - `ensureArtifactDirs()`

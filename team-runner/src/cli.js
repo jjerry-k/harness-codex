@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { loadTeamSpec, validateTeamSpec } from './parser.js';
 import { buildExecutionPlan, runTeam } from './runner.js';
 
@@ -9,16 +10,18 @@ export async function runCli(args) {
   const [command, filePath] = args;
 
   if (!command || !filePath) {
-    throw new Error('Usage: team-runner <validate|plan|run> <team-spec.json>');
+    throw new Error('Usage: team-runner <validate|plan|run> <team-spec.(json|yaml)>');
   }
 
   const { spec, absolutePath } = await loadTeamSpec(filePath);
   const validation = validateTeamSpec(spec);
+  const baseDir = path.dirname(absolutePath);
 
   if (command === 'validate') {
     printJson({
       command,
       file: absolutePath,
+      baseDir,
       ...validation
     });
     return;
@@ -28,6 +31,7 @@ export async function runCli(args) {
     printJson({
       command,
       file: absolutePath,
+      baseDir,
       ...validation
     });
     process.exitCode = 1;
@@ -38,6 +42,7 @@ export async function runCli(args) {
     printJson({
       command,
       file: absolutePath,
+      baseDir,
       plan: buildExecutionPlan(spec)
     });
     return;
@@ -47,7 +52,8 @@ export async function runCli(args) {
     printJson({
       command,
       file: absolutePath,
-      result: runTeam(spec)
+      baseDir,
+      result: await runTeam(spec, { baseDir })
     });
     return;
   }

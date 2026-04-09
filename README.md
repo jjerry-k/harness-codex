@@ -71,6 +71,14 @@ A minimal runnable `team-runner` code skeleton is also included under:
 - `team-runner/src/`
 - `team-runner/examples/`
 
+Current MVP runtime behavior:
+- validates JSON/YAML team specs
+- builds an execution plan
+- creates artifact stub files
+- creates ready-to-use role prompt files
+- prepares merge and validation planning
+- does not yet spawn subagents automatically
+
 ## Included references
 
 - `architecture-patterns.md`
