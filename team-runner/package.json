@@ -8,7 +8,13 @@
   },
   "scripts": {
     "validate": "node ./bin/team-runner.js validate ./examples/web-feature-team.json",
+    "validate:yaml": "node ./bin/team-runner.js validate ./examples/web-feature-team.yaml",
     "plan": "node ./bin/team-runner.js plan ./examples/web-feature-team.json",
-    "run": "node ./bin/team-runner.js run ./examples/web-feature-team.json"
+    "plan:yaml": "node ./bin/team-runner.js plan ./examples/web-feature-team.yaml",
+    "run": "node ./bin/team-runner.js run ./examples/web-feature-team.json",
+    "run:yaml": "node ./bin/team-runner.js run ./examples/web-feature-team.yaml"
+  },
+  "dependencies": {
+    "yaml": "^2.8.1"
   }
 }

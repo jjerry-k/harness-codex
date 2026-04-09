@@ -1,11 +1,22 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import YAML from 'yaml';
 import { REQUIRED_TOP_LEVEL_FIELDS, SPAWN_DECISIONS } from './types.js';
+
+function parseSpecByExtension(raw, absolutePath) {
+  const ext = path.extname(absolutePath).toLowerCase();
+
+  if (ext === '.yaml' || ext === '.yml') {
+    return YAML.parse(raw);
+  }
+
+  return JSON.parse(raw);
+}
 
 export async function loadTeamSpec(filePath) {
   const absolutePath = path.resolve(filePath);
   const raw = await fs.readFile(absolutePath, 'utf8');
-  const spec = JSON.parse(raw);
+  const spec = parseSpecByExtension(raw, absolutePath);
   return { spec, absolutePath };
 }
 
