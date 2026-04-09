@@ -12,7 +12,8 @@
     "plan": "node ./bin/team-runner.js plan ./examples/web-feature-team.json",
     "plan:yaml": "node ./bin/team-runner.js plan ./examples/web-feature-team.yaml",
     "run": "node ./bin/team-runner.js run ./examples/web-feature-team.json",
-    "run:yaml": "node ./bin/team-runner.js run ./examples/web-feature-team.yaml"
+    "run:yaml": "node ./bin/team-runner.js run ./examples/web-feature-team.yaml",
+    "execute": "node ./bin/team-runner.js execute ./examples/web-feature-team.yaml"
   },
   "dependencies": {
     "yaml": "^2.8.1"

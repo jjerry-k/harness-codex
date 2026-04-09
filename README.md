@@ -77,7 +77,8 @@ Current MVP runtime behavior:
 - creates artifact stub files
 - creates ready-to-use role prompt files
 - prepares merge and validation planning
-- does not yet spawn subagents automatically
+- includes an experimental `execute` path that runs Codex role prompts sequentially in report-only mode
+- does not yet do true parallel subagent orchestration
 
 ## Included references
 

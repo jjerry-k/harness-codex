@@ -12,7 +12,7 @@ export function compileRolePrompt(role, spec) {
     lines.push(`- ${output}`);
   }
 
-  lines.push('Follow the team spec and produce the requested artifacts.');
+  lines.push('Follow the team spec and produce the requested artifact-oriented result.');
   return lines.join('\n');
 }
 
