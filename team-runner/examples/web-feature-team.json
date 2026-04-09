@@ -1,0 +1,52 @@
+{
+  "name": "web-feature-team",
+  "goal": "implement invitation and role management",
+  "pattern": "fan-out-fan-in",
+  "spawnDecision": "spawn-recommended",
+  "roles": [
+    {
+      "name": "orchestrator",
+      "mission": "design and coordinate execution",
+      "outputs": [
+        "artifacts/orchestrator-plan.md"
+      ]
+    },
+    {
+      "name": "frontend-builder",
+      "mission": "implement UI and client-side flows",
+      "outputs": [
+        "artifacts/frontend-report.md"
+      ]
+    },
+    {
+      "name": "backend-builder",
+      "mission": "implement API and business logic",
+      "outputs": [
+        "artifacts/backend-report.md"
+      ]
+    },
+    {
+      "name": "reviewer",
+      "mission": "review integrated results",
+      "outputs": [
+        "artifacts/review.md"
+      ]
+    }
+  ],
+  "artifacts": {
+    "root": "artifacts"
+  },
+  "merge": {
+    "owner": "orchestrator",
+    "requires": [
+      "artifacts/frontend-report.md",
+      "artifacts/backend-report.md"
+    ]
+  },
+  "validation": {
+    "owner": "reviewer",
+    "requires": [
+      "artifacts/review.md"
+    ]
+  }
+}

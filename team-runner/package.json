@@ -1,0 +1,14 @@
+{
+  "name": "team-runner",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "team-runner": "./bin/team-runner.js"
+  },
+  "scripts": {
+    "validate": "node ./bin/team-runner.js validate ./examples/web-feature-team.json",
+    "plan": "node ./bin/team-runner.js plan ./examples/web-feature-team.json",
+    "run": "node ./bin/team-runner.js run ./examples/web-feature-team.json"
+  }
+}

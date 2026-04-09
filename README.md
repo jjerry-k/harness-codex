@@ -66,6 +66,11 @@ The MVP architecture is documented in:
 - `team-runner/spec/merge-protocol.md`
 - `team-runner/MVP-TODO.md`
 
+A minimal runnable `team-runner` code skeleton is also included under:
+- `team-runner/bin/`
+- `team-runner/src/`
+- `team-runner/examples/`
+
 ## Included references
 
 - `architecture-patterns.md`

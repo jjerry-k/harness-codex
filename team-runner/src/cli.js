@@ -1,0 +1,56 @@
+import { loadTeamSpec, validateTeamSpec } from './parser.js';
+import { buildExecutionPlan, runTeam } from './runner.js';
+
+function printJson(value) {
+  console.log(JSON.stringify(value, null, 2));
+}
+
+export async function runCli(args) {
+  const [command, filePath] = args;
+
+  if (!command || !filePath) {
+    throw new Error('Usage: team-runner <validate|plan|run> <team-spec.json>');
+  }
+
+  const { spec, absolutePath } = await loadTeamSpec(filePath);
+  const validation = validateTeamSpec(spec);
+
+  if (command === 'validate') {
+    printJson({
+      command,
+      file: absolutePath,
+      ...validation
+    });
+    return;
+  }
+
+  if (!validation.valid) {
+    printJson({
+      command,
+      file: absolutePath,
+      ...validation
+    });
+    process.exitCode = 1;
+    return;
+  }
+
+  if (command === 'plan') {
+    printJson({
+      command,
+      file: absolutePath,
+      plan: buildExecutionPlan(spec)
+    });
+    return;
+  }
+
+  if (command === 'run') {
+    printJson({
+      command,
+      file: absolutePath,
+      result: runTeam(spec)
+    });
+    return;
+  }
+
+  throw new Error(`Unknown command: ${command}`);
+}
