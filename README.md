@@ -61,6 +61,7 @@ This repository now follows the recommended split:
 
 The MVP architecture is documented in:
 - `docs/teams-mvp-architecture.md`
+- `docs/run-workflow.md`
 - `team-runner/spec/team-spec-format.md`
 - `team-runner/spec/artifact-convention.md`
 - `team-runner/spec/merge-protocol.md`
