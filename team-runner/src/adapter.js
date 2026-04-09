@@ -1,20 +1,20 @@
 import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
 
-function buildExecutionPrompt(rolePrompt, artifactPath) {
+function buildExecutionPrompt(rolePrompt) {
   return [
     rolePrompt,
     '',
-    'Execution mode: report-only.',
-    'Do not modify files in the repository for this step.',
-    'Return only a concise markdown report with these sections:',
-    '- summary',
-    '- completed work',
-    '- assumptions',
-    '- unresolved issues',
-    '- next handoff target',
+    'Mode: report-only.',
+    'Do not change repository files in this step.',
+    'Return short markdown only with these exact sections:',
+    '## summary',
+    '## completed work',
+    '## assumptions',
+    '## unresolved issues',
+    '## next handoff target',
     '',
-    `This report will be written to: ${artifactPath}`
+    'Keep the answer brief and concrete.'
   ].join('\n');
 }
 
@@ -57,13 +57,13 @@ async function ensureOutputExists(roleName, artifactPath) {
   }
 }
 
-export async function executeRole({ cwd, roleName, rolePrompt, artifactPath, timeoutMs = 90000 }) {
-  const prompt = buildExecutionPrompt(rolePrompt, artifactPath);
+export async function executeRole({ cwd, roleName, rolePrompt, artifactPath, timeoutMs = 60000 }) {
+  const prompt = buildExecutionPrompt(rolePrompt);
 
   return new Promise((resolve) => {
     const child = spawn(
       'codex',
-      ['exec', '--skip-git-repo-check', '-o', artifactPath, prompt],
+      ['exec', '--skip-git-repo-check', '--ephemeral', '-s', 'read-only', '-o', artifactPath, prompt],
       {
         cwd,
         env: { ...process.env, CI: '1' },
