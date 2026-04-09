@@ -64,6 +64,7 @@ The MVP architecture is documented in:
 - `team-runner/spec/team-spec-format.md`
 - `team-runner/spec/artifact-convention.md`
 - `team-runner/spec/merge-protocol.md`
+- `team-runner/MVP-TODO.md`
 
 ## Included references
 
