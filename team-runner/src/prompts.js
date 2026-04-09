@@ -4,9 +4,14 @@ export function compileRolePrompt(role, spec) {
     `Mission: ${role.mission}`,
     `Project goal: ${spec.goal}`,
     `Pattern: ${spec.pattern}`,
-    `Spawn decision: ${spec.spawnDecision}`,
-    'Expected outputs:'
+    `Spawn decision: ${spec.spawnDecision}`
   ];
+
+  if (Array.isArray(role.dependsOn) && role.dependsOn.length) {
+    lines.push(`Dependencies: ${role.dependsOn.join(', ')}`);
+  }
+
+  lines.push('Expected outputs:');
 
   for (const output of role.outputs || []) {
     lines.push(`- ${output}`);
@@ -23,6 +28,7 @@ export function compileOrchestratorSummary(spec) {
     `Pattern: ${spec.pattern}`,
     `Spawn decision: ${spec.spawnDecision}`,
     `Merge owner: ${spec.merge?.owner}`,
-    `Validation owner: ${spec.validation?.owner}`
+    `Validation owner: ${spec.validation?.owner}`,
+    'Use spawn decisions pragmatically: keep orchestration inline, spawn independent worker roles when parallelism is justified, then merge and validate.'
   ].join('\n');
 }

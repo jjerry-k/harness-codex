@@ -34,10 +34,23 @@ export function validateTeamSpec(spec) {
   }
 
   if (spec.roles && Array.isArray(spec.roles)) {
+    const roleNames = new Set(spec.roles.map((role) => role?.name).filter(Boolean));
+
     spec.roles.forEach((role, index) => {
       if (!role.name) errors.push(`roles[${index}].name is required`);
       if (!role.mission) errors.push(`roles[${index}].mission is required`);
       if (!Array.isArray(role.outputs)) errors.push(`roles[${index}].outputs must be an array`);
+      if (role.dependsOn && !Array.isArray(role.dependsOn)) errors.push(`roles[${index}].dependsOn must be an array when present`);
+      if (role.executionMode && !['auto', 'inline', 'subagent'].includes(role.executionMode)) {
+        errors.push(`roles[${index}].executionMode must be one of: auto, inline, subagent`);
+      }
+      if (Array.isArray(role.dependsOn)) {
+        role.dependsOn.forEach((dependency) => {
+          if (!roleNames.has(dependency)) {
+            errors.push(`roles[${index}].dependsOn includes unknown role: ${dependency}`);
+          }
+        });
+      }
     });
   }
 

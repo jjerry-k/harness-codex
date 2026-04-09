@@ -5,18 +5,29 @@ spawnDecision: spawn-recommended
 roles:
   - name: orchestrator
     mission: design and coordinate execution
+    executionMode: inline
     outputs:
       - artifacts/orchestrator-plan.md
   - name: frontend-builder
     mission: implement UI and client-side flows
+    executionMode: subagent
+    dependsOn:
+      - orchestrator
     outputs:
       - artifacts/frontend-report.md
   - name: backend-builder
     mission: implement API and business logic
+    executionMode: subagent
+    dependsOn:
+      - orchestrator
     outputs:
       - artifacts/backend-report.md
   - name: reviewer
     mission: review integrated results
+    executionMode: inline
+    dependsOn:
+      - frontend-builder
+      - backend-builder
     outputs:
       - artifacts/review.md
 artifacts:

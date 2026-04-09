@@ -74,14 +74,14 @@ A minimal runnable `team-runner` code skeleton is also included under:
 
 Current MVP runtime behavior:
 - validates JSON/YAML team specs
-- builds an execution plan
+- builds an execution plan plus a dependency-aware spawn plan
 - creates artifact stub files
 - creates ready-to-use role prompt files
 - prepares merge and validation planning
-- includes an experimental `execute` path that runs Codex role prompts sequentially in report-only mode
+- `execute` now interprets role dependencies and spawn decisions, keeping orchestration inline while running eligible worker roles in parallel Codex subprocess waves
 - includes `execute-lite`, which runs only orchestrator/reviewer-style roles for better reliability
 - if Codex execution hangs or fails, it writes fallback artifacts instead of blocking the whole run
-- does not yet do true parallel subagent orchestration
+- this is now a pseudo-subagent runner, though it still uses Codex CLI subprocesses rather than OpenClaw session-level subagents
 
 ## Included references
 

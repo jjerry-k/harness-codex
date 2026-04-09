@@ -115,16 +115,19 @@ merge owner가 artifacts를 읽고 최종 정리합니다.
 - `run`
   - 가장 안정적
   - prompt / artifact 준비용
+  - dependency-aware spawn plan도 함께 준비
 - `execute-lite`
   - orchestrator / reviewer 계열만 실험 실행
 - `execute`
-  - 전 역할 실험 실행
+  - 역할 의존성을 보고 wave를 만들고
+  - spawn 가능한 worker role은 병렬 Codex subprocess로 실행
+  - inline role은 부모 흐름에서 유지
 
 현재 실무 추천은 아래입니다.
 
 - 기본 운영: `run`
 - 빠른 실험: `execute-lite`
-- full 자동 실험: `execute`
+- dependency-aware pseudo-subagent 실험: `execute`
 
 ---
 
